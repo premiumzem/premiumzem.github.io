@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ZEPETO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+  }
+  
+  body {
+    font-family: Poppins,'Segoe UI',sans-serif;
+    background: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .popup {
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+  
+
+  
+  .image-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+  }
+  
+  .popup img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 16px;
+  }
+  
+  .sparkle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    filter: blur(3px);
+    opacity: 0
+  }
+  
+  .countdown {
+    display: none;
+  }
+  
+  .progress-container {
+    display: none;
+  }
+  
+  .progress-bar {
+    display: none;
+  }
+  
+  .share-container {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .url-box {
+    background: #ffffff;
+    color: #333;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+    text-align: center;
+    border: 1px solid #e0e0e0;
+    border-right: none;
+    border-radius: 12px 0 0 12px;
+  }
+  
+  .share-btn {
+    background: linear-gradient(90deg,#fc0360,#fd0cc0);
+    color: white;
+    padding: 14px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all .3s ease;
+    border: 1px solid #fc0360;
+    border-radius: 0 12px 12px 0;
+  }
+  
+  .share-btn:hover {
+    background: linear-gradient(90deg,#e00257,#e00aad);
+    transform: translateY(-1px)
+  }
+  
+  .share-btn:active {
+    transform: translateY(0)
+  }
+  
+  .notification-popup {
+    position: fixed;
+    top: -100px;
+    left: 20px;
+    right: 20px;
+    background: #f8f8f8;
+    color: #333;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 3px solid #fc0360;
+    box-shadow: 0 4px 15px rgba(0,0,0,.2);
+    z-index: 1000;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    transition: all .4s ease;
+    display: none;
+  }
+  
+  .notification-popup.show {
+    top: 20px;
+    display: block;
+  }
+  
+  .btn {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    background: linear-gradient(90deg,#fc0360,#fd0cc0);
+    color: #fff;
+    padding: 16px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all .3s ease;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    z-index: 10;
+    touch-action: manipulation;
+  }
+  
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(252,3,96,.4);
+    background: linear-gradient(90deg,#e00257,#e00aad)
+  }
+  
+  .btn:active {
+    transform: translateY(1px)
+  }
+  
+  .confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: red;
+    opacity: 0
+  }
+  
+  .notification-text {
+    color: #333333;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1.5;
+    background-color: #f8f8f8;
+    padding: 16px;
+    border-radius: 12px;
+    border-left: 4px solid #fc0360;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  @media (max-width:480px) {
+    body {
+      padding: 15px;
+    }
+    
+    .popup {
+      gap: 12px;
+    }
+    
+    .image-container {
+      max-width: 100%;
+    }
+    
+    .notification-text {
+      font-size: 14px;
+      line-height: 1.4;
+      padding: 14px;
+    }
+    
+    .share-container {
+      flex-direction: column;
+    }
+    
+    .url-box {
+      border-radius: 12px 12px 0 0;
+      border-right: 1px solid #e0e0e0;
+      border-bottom: none;
+    }
+    
+    .share-btn {
+      border-radius: 0 0 12px 12px;
+      border-top: none;
+    }
+    
+    .btn {
+      font-size: 15px;
+      padding: 15px 20px;
+    }
+  }
+</style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="popup">
+   <div class="image-container"><img src="Notif.png" alt="Gift Image">
+   </div>
+   <p class="notification-text">🎉 Gift has been processed. Claim 24 hours after delivery. Complete verification by copying and sharing to 20 active friends chat-room.</p>
+   <div class="countdown">
+    Redirecting in <span id="timer">15</span> seconds
+   </div>
+   <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+   </div>
+   <div class="share-container">
+    <div class="url-box" id="urlBox">
+     premiumzem.github.io
+    </div><button class="share-btn" id="shareBtn">Share</button>
+   </div><a href="https://j6wp.adj.st/home?landing=live_home&place=live_web_main_page&adj_campaign=WORLD&adj_adgroup=World_PC_DL&adj_t=6k6dwhu" class="btn" id="claimBtn"> Claim Now </a>
+  </div>
+  <div class="notification-popup" id="notificationPopup">
+   🎉 Complete verification by copying and sharing to 20 active friends chat-room.
+  </div>
+  <script>
+  // Countdown timer (hidden but functional)
+  let timeLeft = 20;
+  const countdownInterval = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) {
+      clearInterval(countdownInterval);
+      window.location.href = "https://j6wp.adj.st/home?landing=live_home&place=live_web_main_page&adj_campaign=WORLD&adj_adgroup=World_PC_DL&adj_t=6k6dwhu";
+    }
+  }, 1000);
+
+  // Share functionality
+  const shareBtn = document.getElementById("shareBtn");
+  const urlBox = document.getElementById("urlBox");
+  const notificationPopup = document.getElementById("notificationPopup");
+  
+  shareBtn.addEventListener("click", function() {
+    // Copy URL to clipboard
+    navigator.clipboard.writeText("PREMIUMzem.github.io").then(() => {
+      // Show notification popup
+      notificationPopup.classList.add("show");
+      
+      // Hide notification after 3 seconds
+      setTimeout(() => {
+        notificationPopup.classList.remove("show");
+      }, 3000);
+    }).catch(() => {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = "PREMIUMzem.github.io";
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      // Show notification popup
+      notificationPopup.classList.add("show");
+      
+      // Hide notification after 3 seconds
+      setTimeout(() => {
+        notificationPopup.classList.remove("show");
+      }, 3000);
+    });
+  });
+
+  // Confetti effect and button functionality
+  const claimBtn = document.getElementById("claimBtn");
+  
+  function createConfetti() {
+    const colors = ["#fc0360", "#fd0cc0", "#FFD700", "#00BFFF", "#FF4500", "#ff6ec7"];
+    const container = document.querySelector(".popup");
+    
+    for (let i = 0; i < 20; i++) {
+      const confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      
+      const size = Math.random() * 8 + 5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      confetti.style.width = `${size}px`;
+      confetti.style.height = `${size}px`;
+      confetti.style.background = color;
+      
+      const btnRect = claimBtn.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      
+      const top = btnRect.top - containerRect.top + Math.random() * 60 - 30;
+      const left = btnRect.left - containerRect.left + Math.random() * btnRect.width;
+      
+      confetti.style.top = `${top}px`;
+      confetti.style.left = `${left}px`;
+      confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+      
+      container.appendChild(confetti);
+      
+      const duration = Math.random() * 1000 + 500;
+      const xMove = (Math.random() - 0.5) * 100;
+      const yMove = -Math.random() * 100 - 20;
+      const rotation = Math.random() * 360;
+      
+      confetti.animate([
+        { transform: "translate(0, 0) rotate(0deg)", opacity: 0 },
+        { transform: `translate(${xMove}px, ${yMove}px) rotate(${rotation}deg)`, opacity: 1 },
+        { transform: `translate(${xMove * 2}px, ${yMove * 2}px) rotate(${rotation * 2}deg)`, opacity: 0 }
+      ], {
+        duration: duration,
+        easing: "cubic-bezier(0.1, 0.8, 0.2, 1)"
+      });
+      
+      setTimeout(() => {
+        confetti.remove();
+      }, duration);
+    }
+  }
+
+  // Improved mobile support for the button
+  claimBtn.addEventListener("mouseover", createConfetti);
+  
+  // Handle touch events properly for mobile
+  claimBtn.addEventListener("touchstart", function(e) {
+    createConfetti();
+  }, {passive: true});
+  
+  // Make sure the button works on all devices
+  claimBtn.addEventListener("click", function(e) {
+    createConfetti();
+    // Small delay to allow confetti to show before navigation
+    setTimeout(() => {
+      window.location.href = "https://j6wp.adj.st/home?landing=live_home&place=live_web_main_page&adj_campaign=WORLD&adj_adgroup=World_PC_DL&adj_t=6k6dwhu";
+    }, 100);
+  });
+</script>
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'952b1d79940bba3d',t:'MTc1MDQyMDkyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'999ef60c00fbb7c5',t:'MTc2MjM3MzA3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

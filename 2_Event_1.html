@@ -1,0 +1,410 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEPETO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            overflow: auto;
+        }
+        
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .header {
+            width: 100vw;
+            background: linear-gradient(90deg, #fc0360, #fd0cc0);
+            padding: 50px 20px 20px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: background 0.3s ease;
+        }
+        
+        .header.basic {
+            background: linear-gradient(90deg, #301db2, #2c4ec5);
+        }
+        
+        .header img {
+            width: 60px;
+            margin-bottom: 0px;
+            margin-top: -20px;
+            transition: opacity 0.3s ease;
+        }
+        
+        .header.basic img {
+            opacity: 0;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 100px;
+            background: white;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            padding: 20px 0 10px;
+            margin-top: -4px;
+            background: white;
+            position: sticky;
+            top: 80px;
+            z-index: 5;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            color: #fc0360;
+        }
+        
+        .tab.active.basic-tab {
+            color: #301db2;
+        }
+        
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 80%;
+            height: 5px;
+            background: #fc0360;
+            border-radius: 10px;
+            transform: translateX(-50%);
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active.basic-tab::after {
+            background: #301db2;
+        }
+        
+        .content {
+            width: 100%;
+            max-height: none;
+            overflow-y: visible;
+            padding: 15px;
+            background: white;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 5px 0;
+        }
+        
+        .item img {
+            width: 55px;
+            height: 55px;
+            margin-right: 15px;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+        
+        .item-text {
+            flex: 1;
+        }
+        
+        .item-text strong {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 1px;
+            font-size: 16px;
+        }
+        
+        .item-text p {
+            color: #989898;
+            font-size: 12px;
+            line-height: 1.3;
+        }
+        
+        .button {
+            width: 90%;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #fc0360, #fd0cc0);
+            text-align: center;
+            padding: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 15;
+            box-shadow: 0 4px 15px rgba(252, 3, 96, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .button.basic {
+            background: linear-gradient(90deg, #301db2, #2c4ec5);
+            box-shadow: 0 4px 15px rgba(48, 29, 178, 0.3);
+        }
+        
+        .button:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252, 3, 96, 0.4);
+        }
+        
+        .button.basic:hover {
+            box-shadow: 0 6px 20px rgba(48, 29, 178, 0.4);
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+            .item {
+                padding: 5px 0;
+            }
+            
+            .item-text strong {
+                font-size: 15px;
+            }
+            
+            .item-text p {
+                font-size: 11px;
+            }
+            
+            .item img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <img src="Logo.png" alt="Premium Icon" id="header-logo">
+        <div id="header-title">Premium Plus</div>
+    </div>
+    
+    <div class="container">
+        <div class="tabs">
+            <div class="tab" id="basic-tab" onclick="setActiveTab('basic')">Basic</div>
+            <div class="tab active" id="plus-tab" onclick="setActiveTab('plus')">Plus</div>
+        </div>
+        
+        <div class="content">
+            <!-- Basic Tab Content -->
+            <div class="tab-content" id="basic-content">
+                <div class="item">
+                    <img src="benefit1.png" alt="ZEM Icon">
+                    <div class="item-text">
+                        <strong>70 ZEMs Every Month</strong>
+                        <p>Subscribe for 70 ZEMs every month</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit2.png" alt="Daily ZEM Icon">
+                    <div class="item-text">
+                        <strong>1 ZEM Daily</strong>
+                        <p>Log into ZEPETO Home daily to receive 1 ZEM</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit3.png" alt="Coin Icon">
+                    <div class="item-text">
+                        <strong>3,000 Coins Every Month</strong>
+                        <p>Subscribe to receive 3,000 Coins every month</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit4.png" alt="Color Picker Icon">
+                    <div class="item-text">
+                        <strong>Color Picker Access</strong>
+                        <p>Subscribe to enjoy the Color Picker with limited uses</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit5.png" alt="Custom PRO Icon">
+                    <div class="item-text">
+                        <strong>Custom PRO Access</strong>
+                        <p>Subscribe and use Custom PRO with limitations</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit6.png" alt="Limited Item Icon">
+                    <div class="item-text">
+                        <strong>Limited-Item Purchase Pass</strong>
+                        <p>Purchase selected limited items for Basic subscribers</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit7.png" alt="Creator Icon">
+                    <div class="item-text">
+                        <strong>Creator Review</strong>
+                        <p>Standard review for your items as a creator</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Plus Tab Content -->
+            <div class="tab-content active" id="plus-content">
+                <div class="item">
+                    <img src="benefit1.png" alt="ZEM Icon">
+                    <div class="item-text">
+                        <strong>170 ZEMs Every Month</strong>
+                        <p>Subscribe for 170 ZEMs every month (+23% bonus)</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit2.png" alt="Daily ZEM Icon">
+                    <div class="item-text">
+                        <strong>1 ZEM Daily</strong>
+                        <p>Log into ZEPETO Home daily to receive 1 ZEM during your subscription</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit3.png" alt="Coin Icon">
+                    <div class="item-text">
+                        <strong>5,000 Coins Every Month</strong>
+                        <p>Subscribe to receive 5,000 Coins every month</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit4.png" alt="Color Picker Icon">
+                    <div class="item-text">
+                        <strong>Unlimited Color Picker Access</strong>
+                        <p>Subscribe to enjoy the Color Picker with no limits</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit5.png" alt="Custom PRO Icon">
+                    <div class="item-text">
+                        <strong>Unlimited Custom PRO Access</strong>
+                        <p>Subscribe and use Custom PRO all you want</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit6.png" alt="Limited Item Icon">
+                    <div class="item-text">
+                        <strong>Limited-Item Purchase Pass</strong>
+                        <p>Purchase exclusive limited items for Premium subscribers</p>
+                    </div>
+                </div>
+                
+                <div class="item">
+                    <img src="benefit7.png" alt="Creator Icon">
+                    <div class="item-text">
+                        <strong>Creator Review Priority</strong>
+                        <p>Get priority review for your items as a creator</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="3_Event_2.html" class="button" id="claim-button">Claim FREE Now</a>
+    
+    <script>
+        // Tab functionality
+        function setActiveTab(tabType) {
+            const basicTab = document.getElementById('basic-tab');
+            const plusTab = document.getElementById('plus-tab');
+            const basicContent = document.getElementById('basic-content');
+            const plusContent = document.getElementById('plus-content');
+            const header = document.getElementById('header');
+            const headerTitle = document.getElementById('header-title');
+            const claimButton = document.getElementById('claim-button');
+            
+            if (tabType === 'basic') {
+                // Update tabs
+                basicTab.classList.add('active', 'basic-tab');
+                plusTab.classList.remove('active');
+                
+                // Update content
+                basicContent.classList.add('active');
+                plusContent.classList.remove('active');
+                
+                // Update header and button colors
+                header.classList.add('basic');
+                headerTitle.textContent = 'Premium Basic';
+                claimButton.classList.add('basic');
+            } else {
+                // Update tabs
+                plusTab.classList.add('active');
+                basicTab.classList.remove('active', 'basic-tab');
+                
+                // Update content
+                plusContent.classList.add('active');
+                basicContent.classList.remove('active');
+                
+                // Update header and button colors
+                header.classList.remove('basic');
+                headerTitle.textContent = 'Premium Plus';
+                claimButton.classList.remove('basic');
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'946faf628474b5e1',t:'MTc0ODQ1NTU3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

